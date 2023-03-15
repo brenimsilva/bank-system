@@ -1,18 +1,14 @@
 import Account from "./src/Account.js";
 import CPF from "./src/CPF.js";
 import { TransactionType } from "./src/TransactionType.js";
+import User from "./src/User.js";
 
-const cpf = new CPF("12047290694");
+const user1 = new User(new CPF("12047290694"), "Breno", 1000);
+const user2 = new User(new CPF("096.233.644-06"), "Jose", 1344, [new Account("001", 100, "Jose")]);
 
+user1.addAccount(new Account("002", 200, user1.nome));
 
-const conta1 = new Account("123", 1000);
-const conta2 = new Account("456", 1324);
+console.log(user1.getAccounts());
+console.log(user1.getAccountByNumber("002"));
 
-conta1.makeTransaction(TransactionType.DEPOSIT, 100);
-conta1.makeTransaction(TransactionType.WITHDRAW, 123);
-conta1.makeTransaction(TransactionType.RECEIVE, 400, conta2);
-conta1.makeTransaction(TransactionType.SEND, 333, conta2);
-
-conta1.historico.forEach((transacao) => {
-    document.body.innerHTML += transacao.getTransactionString();
-})
+user1.getAccountByNumber("002").makeTransaction(TransactionType.DEPOSIT, 100);
