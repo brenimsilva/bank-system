@@ -18,7 +18,10 @@ export default class User {
     }
 
     deposit(accountNumber: string, value: number) {
-        if(this.dinheiro >= value) this.getAccountByNumber(accountNumber).makeTransaction(TransactionType.DEPOSIT, value);
+        if(this.dinheiro >= value) {
+            this.dinheiro -= value;
+            this.getAccountByNumber(accountNumber).makeTransaction(TransactionType.DEPOSIT, value);
+        } 
         else throw new Error("Saldo insuficiente");
     }
 
@@ -27,7 +30,10 @@ export default class User {
             return conta.numeroDaConta === accountNumber;
         })[0];
 
-        if (accountSelected) accountSelected.makeTransaction(TransactionType.WITHDRAW, value); 
+        if (accountSelected) {
+            this.dinheiro += value;
+            accountSelected.makeTransaction(TransactionType.WITHDRAW, value);
+        } 
         else throw new Error("User precisa ser dono da conta");
     }
 
