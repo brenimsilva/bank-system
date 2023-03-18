@@ -1,12 +1,16 @@
 import Account from "./Account.js";
+import BankEntity from "./BankEntity.js";
 import CPF from "./CPF.js";
 import { TransactionType } from "./TransactionType.js";
 
 export default class User {
-    constructor(public cpf: CPF, public nome: string, public dinheiro: number, private contas: Account[] = []) {}
+    private contas: Account[] = []
+    constructor(public cpf: CPF, public nome: string, public dinheiro: number ) {
+    }
 
     addAccount(account: Account) {
         this.contas = [...this.contas, account];
+        BankEntity.addAccount(account);
     }
 
     getAccounts() {
@@ -20,7 +24,7 @@ export default class User {
     deposit(accountNumber: string, value: number) {
         if(this.dinheiro >= value) {
             this.dinheiro -= value;
-            this.getAccountByNumber(accountNumber).makeTransaction(TransactionType.DEPOSIT, value);
+           BankEntity.getAccountByNumber(accountNumber).makeTransaction(TransactionType.DEPOSIT, value);
         } 
         else throw new Error("Saldo insuficiente");
     }
@@ -29,11 +33,12 @@ export default class User {
         const accountSelected = this.contas.filter((conta) => {
             return conta.numeroDaConta === accountNumber;
         })[0];
-
-        if (accountSelected) {
+        console.log(this.contas);
+        if(accountSelected) {
             this.dinheiro += value;
             accountSelected.makeTransaction(TransactionType.WITHDRAW, value);
         } 
+        
         else throw new Error("User precisa ser dono da conta");
     }
 
@@ -42,6 +47,7 @@ export default class User {
             return conta.numeroDaConta === accountNumber;
         })[0];
 
+        
         if (accountSelected) accountSelected.makeTransaction(TransactionType.SEND, value, receiver);
         else throw new Error("User precisa ser dono da conta");
     }
