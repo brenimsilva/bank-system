@@ -5,7 +5,7 @@ import { TransactionType } from "./TransactionType.js";
 
 export default class User {
     private contas: Account[] = []
-    constructor(public cpf: CPF, public nome: string, public dinheiro: number ) {
+    constructor(public cpf: CPF, public nome: string, public dinheiro: number) {
     }
 
     addAccount(account: Account) {
@@ -51,7 +51,5 @@ export default class User {
         if (accountSelected) accountSelected.makeTransaction(TransactionType.SEND, value, receiver);
         else throw new Error("User precisa ser dono da conta");
     }
-
-
 
 }

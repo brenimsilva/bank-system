@@ -13,9 +13,7 @@ export default class Account {
             case TransactionType.SEND:
                 if(this.saldo >= value) {
                     this.saldo -= value;
-                    accountReceiver!.saldo += value;
-                    accountReceiver!.historico = [...accountReceiver!.historico, 
-                        new Transaction(accountReceiver!, TransactionType.RECEIVE, value, this)];
+                    accountReceiver!.makeTransaction(TransactionType.RECEIVE, value, accountReceiver);
                     break;
                 } else {
                     throw new Error("Saldo insuficiente");
@@ -23,6 +21,10 @@ export default class Account {
 
             case TransactionType.WITHDRAW:
                 if(this.saldo >= value) this.saldo -= value;
+                break;
+            
+            case TransactionType.RECEIVE:
+                this.saldo += value;
                 break;
         }
         this.historico = [...this.historico, new Transaction(this, transactionType, value, accountReceiver)]
