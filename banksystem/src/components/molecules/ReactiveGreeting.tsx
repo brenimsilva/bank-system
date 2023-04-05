@@ -1,5 +1,6 @@
 import React from "react";
 import HighlightText from "../atoms/HighlightText";
+import Title from "../atoms/Title";
 interface props {
   name: string;
   username: string;
@@ -7,10 +8,10 @@ interface props {
 export default function ReactiveGreeting({ name, username }: props) {
   return (
     <div>
-      <h3 style={{ color: "#210062" }}>
-        Olá <HighlightText color="#009FBD" text={name} />! seu usuário será:{" "}
+      <Title color="#210062" size="h3">
+        Olá <HighlightText color="#009FBD" text={name} />! seu usuário será:
         <HighlightText color="#009FBD" text={username} />
-      </h3>
+      </Title>
     </div>
   );
 }
