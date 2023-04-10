@@ -13,7 +13,6 @@ export default function ReactiveRegisterForm() {
 
   function onGetNameAndUsername(greeting: greetingData) {
     setGreetingData({ ...greeting });
-    console.log("ASD");
   }
 
   return (
